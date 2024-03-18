@@ -26,6 +26,7 @@ RandomScripts I make for Friends
   ## 1.3. Migrate Assets to Non-Project Folder
     > Files: 
       - Unreal_Stuff/CreateTempProjectFolder.bat
+  [![Video](https://img.youtube.com/vi/ikH9uJQW51M/0.jpg)](https://youtu.be/ikH9uJQW51M)
   
 # 2. Maya Scripts
   ## 2.1. Xgen Hair Guides Out
