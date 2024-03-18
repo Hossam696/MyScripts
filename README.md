@@ -23,6 +23,10 @@ RandomScripts I make for Friends
   
   https://www.linkedin.com/posts/hossam96_3d-unreal-unrealengine-activity-7170352803259768832-vbFz
 
+  ## 1.3. Migrate Assets to Non-Project Folder
+    > Files: 
+      - Unreal_Stuff/CreateTempProjectFolder.bat
+  
 # 2. Maya Scripts
   ## 2.1. Xgen Hair Guides Out
     > Files:
