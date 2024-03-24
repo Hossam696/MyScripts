@@ -2,6 +2,7 @@
 from PySide2 import QtCore, QtGui, QtWidgets
 import maya.cmds as cmds
 import maya.api.OpenMaya as om
+import maya.mel as mel
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 import random
 import re
@@ -19,26 +20,27 @@ def undo(func):
 class Ui_DistributionWindow(object):
     def setupUi(self, DistributionWindow):
         DistributionWindow.setObjectName("DistributionWindow")
+        DistributionWindow.resize(394, 652)
         self.centralwidget = QtWidgets.QWidget(DistributionWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
-        self.Distribute_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.Distribute_btn.setObjectName("Distribute_btn")
-        self.gridLayout.addWidget(self.Distribute_btn, 5, 0, 1, 1)
+        self.ObjsLayout = QtWidgets.QHBoxLayout()
+        self.ObjsLayout.setObjectName("ObjsLayout")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.txt_add_obj = QtWidgets.QLabel(self.centralwidget)
         self.txt_add_obj.setAlignment(QtCore.Qt.AlignCenter)
         self.txt_add_obj.setObjectName("txt_add_obj")
-        self.gridLayout.addWidget(self.txt_add_obj, 0, 0, 1, 1)
-        self.ObjsLayout = QtWidgets.QHBoxLayout()
-        self.ObjsLayout.setObjectName("ObjsLayout")
+        self.verticalLayout_2.addWidget(self.txt_add_obj)
         self.Objlist = QtWidgets.QListWidget(self.centralwidget)
         self.Objlist.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.Objlist.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.Objlist.setObjectName("Objlist")
-        self.ObjsLayout.addWidget(self.Objlist)
+        self.verticalLayout_2.addWidget(self.Objlist)
+        self.ObjsLayout.addLayout(self.verticalLayout_2)
         self.ObjbtnsLayout_2 = QtWidgets.QVBoxLayout()
         self.ObjbtnsLayout_2.setObjectName("ObjbtnsLayout_2")
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -56,17 +58,68 @@ class Ui_DistributionWindow(object):
         self.ObjbtnsLayout_2.addItem(spacerItem1)
         self.ObjsLayout.addLayout(self.ObjbtnsLayout_2)
         self.gridLayout.addLayout(self.ObjsLayout, 1, 0, 1, 1)
+        self.Distribute_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.Distribute_btn.setObjectName("Distribute_btn")
+        self.gridLayout.addWidget(self.Distribute_btn, 6, 0, 1, 1)
+        self.RandomizationLayout = QtWidgets.QGridLayout()
+        self.RandomizationLayout.setObjectName("RandomizationLayout")
+        self.random_rotZ_chkbox = QtWidgets.QCheckBox(self.centralwidget)
+        self.random_rotZ_chkbox.setObjectName("random_rotZ_chkbox")
+        self.RandomizationLayout.addWidget(self.random_rotZ_chkbox, 7, 0, 1, 1)
+        self.max_rotZ_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
+        self.max_rotZ_spinbox.setMaximum(360.0)
+        self.max_rotZ_spinbox.setProperty("value", 360.0)
+        self.max_rotZ_spinbox.setObjectName("max_rotZ_spinbox")
+        self.RandomizationLayout.addWidget(self.max_rotZ_spinbox, 7, 2, 1, 1)
+        self.min_rotZ_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
+        self.min_rotZ_spinbox.setMaximum(360.0)
+        self.min_rotZ_spinbox.setObjectName("min_rotZ_spinbox")
+        self.RandomizationLayout.addWidget(self.min_rotZ_spinbox, 7, 1, 1, 1)
+        self.min_rotX_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
+        self.min_rotX_spinbox.setMaximum(360.0)
+        self.min_rotX_spinbox.setObjectName("min_rotX_spinbox")
+        self.RandomizationLayout.addWidget(self.min_rotX_spinbox, 5, 1, 1, 1)
+        self.min_rotY_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
+        self.min_rotY_spinbox.setMaximum(360.0)
+        self.min_rotY_spinbox.setObjectName("min_rotY_spinbox")
+        self.RandomizationLayout.addWidget(self.min_rotY_spinbox, 6, 1, 1, 1)
+        self.match_rot_chkbox = QtWidgets.QCheckBox(self.centralwidget)
+        self.match_rot_chkbox.setObjectName("match_rot_chkbox")
+        self.RandomizationLayout.addWidget(self.match_rot_chkbox, 4, 0, 1, 1)
+        self.max_rotX_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
+        self.max_rotX_spinbox.setMaximum(360.0)
+        self.max_rotX_spinbox.setProperty("value", 360.0)
+        self.max_rotX_spinbox.setObjectName("max_rotX_spinbox")
+        self.RandomizationLayout.addWidget(self.max_rotX_spinbox, 5, 2, 1, 1)
+        self.random_rotY_chkbox = QtWidgets.QCheckBox(self.centralwidget)
+        self.random_rotY_chkbox.setObjectName("random_rotY_chkbox")
+        self.RandomizationLayout.addWidget(self.random_rotY_chkbox, 6, 0, 1, 1)
+        self.max_rotY_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
+        self.max_rotY_spinbox.setMaximum(360.0)
+        self.max_rotY_spinbox.setProperty("value", 360.0)
+        self.max_rotY_spinbox.setObjectName("max_rotY_spinbox")
+        self.RandomizationLayout.addWidget(self.max_rotY_spinbox, 6, 2, 1, 1)
+        self.random_rotX_chkbox = QtWidgets.QCheckBox(self.centralwidget)
+        self.random_rotX_chkbox.setObjectName("random_rotX_chkbox")
+        self.RandomizationLayout.addWidget(self.random_rotX_chkbox, 5, 0, 1, 1)
+        self.instance_chkbox = QtWidgets.QCheckBox(self.centralwidget)
+        self.instance_chkbox.setObjectName("instance_chkbox")
+        self.RandomizationLayout.addWidget(self.instance_chkbox, 4, 1, 1, 1)
+        self.gridLayout.addLayout(self.RandomizationLayout, 5, 0, 1, 1)
+        self.LocationsLayout = QtWidgets.QHBoxLayout()
+        self.LocationsLayout.setObjectName("LocationsLayout")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
         self.txt_add_locs = QtWidgets.QLabel(self.centralwidget)
         self.txt_add_locs.setAlignment(QtCore.Qt.AlignCenter)
         self.txt_add_locs.setObjectName("txt_add_locs")
-        self.gridLayout.addWidget(self.txt_add_locs, 2, 0, 1, 1)
-        self.LocationsLayout = QtWidgets.QHBoxLayout()
-        self.LocationsLayout.setObjectName("LocationsLayout")
+        self.verticalLayout.addWidget(self.txt_add_locs)
         self.Loclist = QtWidgets.QListWidget(self.centralwidget)
         self.Loclist.setDragDropMode(QtWidgets.QAbstractItemView.DragDrop)
         self.Loclist.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.Loclist.setObjectName("Loclist")
-        self.LocationsLayout.addWidget(self.Loclist)
+        self.verticalLayout.addWidget(self.Loclist)
+        self.LocationsLayout.addLayout(self.verticalLayout)
         self.LocsbtnsLayout = QtWidgets.QVBoxLayout()
         self.LocsbtnsLayout.setObjectName("LocsbtnsLayout")
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -84,60 +137,16 @@ class Ui_DistributionWindow(object):
         self.LocsbtnsLayout.addItem(spacerItem3)
         self.LocationsLayout.addLayout(self.LocsbtnsLayout)
         self.gridLayout.addLayout(self.LocationsLayout, 3, 0, 1, 1)
-        self.RandomizationLayout = QtWidgets.QGridLayout()
-        self.RandomizationLayout.setObjectName("RandomizationLayout")
-        self.max_rotZ_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
-        self.max_rotZ_spinbox.setMaximum(360.0)
-        self.max_rotZ_spinbox.setProperty("value", 360.0)
-        self.max_rotZ_spinbox.setObjectName("max_rotZ_spinbox")
-        self.max_rotZ_spinbox.setEnabled(False)
-        self.RandomizationLayout.addWidget(self.max_rotZ_spinbox, 7, 2, 1, 1)
-        self.min_rotZ_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
-        self.min_rotZ_spinbox.setMaximum(360.0)
-        self.min_rotZ_spinbox.setObjectName("min_rotZ_spinbox")
-        self.min_rotZ_spinbox.setEnabled(False)
-        self.RandomizationLayout.addWidget(self.min_rotZ_spinbox, 7, 1, 1, 1)
-        self.match_rot_chkbox = QtWidgets.QCheckBox(self.centralwidget)
-        self.match_rot_chkbox.setObjectName("match_rot_chkbox")
-        self.RandomizationLayout.addWidget(self.match_rot_chkbox, 4, 0, 1, 1)
-        self.min_rotX_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
-        self.min_rotX_spinbox.setMaximum(360.0)
-        self.min_rotX_spinbox.setObjectName("min_rotX_spinbox")
-        self.min_rotX_spinbox.setEnabled(False)
-        self.RandomizationLayout.addWidget(self.min_rotX_spinbox, 5, 1, 1, 1)
-        self.min_rotY_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
-        self.min_rotY_spinbox.setMaximum(360.0)
-        self.min_rotY_spinbox.setObjectName("min_rotY_spinbox")
-        self.min_rotY_spinbox.setEnabled(False)
-        self.RandomizationLayout.addWidget(self.min_rotY_spinbox, 6, 1, 1, 1)
-        self.max_rotY_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
-        self.max_rotY_spinbox.setMaximum(360.0)
-        self.max_rotY_spinbox.setProperty("value", 360.0)
-        self.max_rotY_spinbox.setObjectName("max_rotY_spinbox")
-        self.max_rotY_spinbox.setEnabled(False)
-        self.RandomizationLayout.addWidget(self.max_rotY_spinbox, 6, 2, 1, 1)
-        self.random_rotY_chkbox = QtWidgets.QCheckBox(self.centralwidget)
-        self.random_rotY_chkbox.setObjectName("random_rotY_chkbox")
-        self.RandomizationLayout.addWidget(self.random_rotY_chkbox, 6, 0, 1, 1)
-        self.random_rotZ_chkbox = QtWidgets.QCheckBox(self.centralwidget)
-        self.random_rotZ_chkbox.setObjectName("random_rotZ_chkbox")
-        self.RandomizationLayout.addWidget(self.random_rotZ_chkbox, 7, 0, 1, 1)
-        self.max_rotX_spinbox = QtWidgets.QDoubleSpinBox(self.centralwidget)
-        self.max_rotX_spinbox.setMaximum(360.0)
-        self.max_rotX_spinbox.setProperty("value", 360.0)
-        self.max_rotX_spinbox.setObjectName("max_rotX_spinbox")
-        self.max_rotX_spinbox.setEnabled(False)
-        self.RandomizationLayout.addWidget(self.max_rotX_spinbox, 5, 2, 1, 1)
-        self.random_rotX_chkbox = QtWidgets.QCheckBox(self.centralwidget)
-        self.random_rotX_chkbox.setObjectName("random_rotX_chkbox")
-        self.RandomizationLayout.addWidget(self.random_rotX_chkbox, 5, 0, 1, 1)
-        self.gridLayout.addLayout(self.RandomizationLayout, 4, 0, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem4, 1, 0, 1, 1)
+        self.gridLayout_2.addItem(spacerItem4, 2, 0, 1, 1)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.gridLayout_2.addWidget(self.label, 1, 0, 1, 1)
         DistributionWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(DistributionWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 421, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 394, 21))
         self.menubar.setObjectName("menubar")
         DistributionWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(DistributionWindow)
@@ -150,19 +159,21 @@ class Ui_DistributionWindow(object):
     def retranslateUi(self, DistributionWindow):
         _translate = QtCore.QCoreApplication.translate
         DistributionWindow.setWindowTitle(_translate("DistributionWindow", "DistributionWindow"))
-        self.Distribute_btn.setText(_translate("DistributionWindow", "Distribute!"))
         self.txt_add_obj.setText(_translate("DistributionWindow", "Add Objects to Distribute"))
         self.obj_add_btn.setText(_translate("DistributionWindow", "Add"))
         self.obj_rmv_btn.setText(_translate("DistributionWindow", "Remove"))
         self.obj_clr_btn.setText(_translate("DistributionWindow", "Clear"))
+        self.Distribute_btn.setText(_translate("DistributionWindow", "Distribute!"))
+        self.random_rotZ_chkbox.setText(_translate("DistributionWindow", "Random Rotation Z"))
+        self.match_rot_chkbox.setText(_translate("DistributionWindow", "Match Rotation to Normal"))
+        self.random_rotY_chkbox.setText(_translate("DistributionWindow", "Random Rotation Y"))
+        self.random_rotX_chkbox.setText(_translate("DistributionWindow", "Random Rotation X"))
+        self.instance_chkbox.setText(_translate("DistributionWindow", "Instanced Objects"))
         self.txt_add_locs.setText(_translate("DistributionWindow", "Add Distribute Locations"))
         self.Locs_add_btn.setText(_translate("DistributionWindow", "Add"))
         self.Locs_rmv_btn.setText(_translate("DistributionWindow", "Remove"))
         self.Locs_clr_btn.setText(_translate("DistributionWindow", "Clear"))
-        self.match_rot_chkbox.setText(_translate("DistributionWindow", "Match Rotation to Normal"))
-        self.random_rotY_chkbox.setText(_translate("DistributionWindow", "Random Rotation Y"))
-        self.random_rotZ_chkbox.setText(_translate("DistributionWindow", "Random Rotation Z"))
-        self.random_rotX_chkbox.setText(_translate("DistributionWindow", "Random Rotation X"))
+        self.label.setText(_translate("DistributionWindow", "©CreatedBy Hossam Eldin Nasser"))
 
 class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_DistributionWindow):
     
@@ -269,7 +280,6 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         selection = om.MSelectionList()
         selection.add(edge)
         if selection.getComponent(0)[1].apiType() != om.MFn.kMeshEdgeComponent:
-            print(selection.getComponent(0)[1].apiType())
             return
         edgeToVtx = cmds.polyInfo(edge,ev=1)[0]
         matches = re.findall('[-+]?[0-9]*\.?[0-9]+',edgeToVtx)
@@ -285,42 +295,10 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         Matrix = self.normalize_matrix_Axis(avgMat)
         return Matrix
 
-    def get_face_matrix_old(self,face):
-        selection = om.MSelectionList()
-        selection.add(face)
-        if selection.getComponent(0)[1].apiType() != om.MFn.kMeshPolygonComponent:
-            print(selection.getComponent(0)[1].apiType())
-            return
-
-        faceInfo = cmds.polyInfo(face,fn=1)[0]
-        matches = re.findall('[-+]?[0-9]*\.?[0-9]+',faceInfo)
-        faceNormal = map(float, matches[-3:])
-        YAxis = om.MVector(faceNormal)
-        XAxis = YAxis ^ om.MVector.kXaxisVector
-        ZAxis = XAxis ^ YAxis
-        ZPoint = om.MPoint(ZAxis.normalize())
-        ZPoint.w = 0
-        XPoint = om.MPoint(XAxis.normalize())
-        XPoint.w = 0
-        YPoint = om.MPoint(YAxis.normalize())
-        YPoint.w = 0
-        positions = cmds.xform(face,q=True,t=True,ws=True)
-        positions_list = [positions[i:i+3] for i in range(0,len(positions),3)]
-        sum_positions = om.MVector()
-        for pos in positions_list:
-            sum_positions += om.MVector(pos)
-        
-        position = sum_positions / len(positions_list)
-        position = om.MPoint(position)
-        Matrix = om.MMatrix([XPoint,YPoint,ZPoint,position])
-
-        return Matrix
-
     def get_face_matrix(self,face):
         selection = om.MSelectionList()
         selection.add(face)
         if selection.getComponent(0)[1].apiType() != om.MFn.kMeshPolygonComponent:
-            print(selection.getComponent(0)[1].apiType())
             return
 
         faceToVtx = cmds.polyInfo(face,fv=1)[0]
@@ -351,6 +329,11 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         curveFn = om.MFnNurbsCurve(dagPath)
         cv_pos = curveFn.cvPosition(cvID, om.MSpace.kWorld)
         closest_pnt, param = curveFn.closestPoint(cv_pos,space=om.MSpace.kWorld)
+        domain = curveFn.knotDomain
+        if param >= domain[1]:
+            param-= 0.00001
+        elif param <= domain[0]:
+            param = 0.00001
         normal = curveFn.normal(param,om.MSpace.kWorld).normalize()
         tangent = curveFn.tangent(param,om.MSpace.kWorld).normalize()
         bitangent = (tangent ^ normal).normalize()
@@ -371,13 +354,18 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         if selection.getComponent(0)[1].apiType() != om.MFn.kCurveEPComponent:
             return
         curve_name = ep.split(".ep[")[0]
-        sel = om.MSelectionList()
-        sel.add(curve_name)
-        Node = sel.getDependNode(0)
+        selection.clear()
+        selection.add(curve_name)
+        Node = selection.getDependNode(0)
         dagPath = om.MDagPath.getAPathTo(Node)
         curveFn = om.MFnNurbsCurve(dagPath)
         ep_pos = om.MPoint(cmds.xform(ep,q=True,t=True,ws=True))
         closest_pnt, param = curveFn.closestPoint(ep_pos)
+        domain = curveFn.knotDomain
+        if param >= domain[1]:
+            param-= 0.00001
+        elif param <= domain[0]:
+            param = 0.00001
         normal = curveFn.normal(param,om.MSpace.kWorld).normalize()
         tangent = curveFn.tangent(param,om.MSpace.kWorld).normalize()
         bitangent = (tangent ^ normal).normalize()
@@ -404,7 +392,9 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
             Mat = self.get_CV_matrix(loc)
         elif selection.getComponent(0)[1].apiType() == om.MFn.kCurveEPComponent:
             Mat = self.get_ep_matrix(loc)
-        elif selection.getComponent(0)[1].apiType() == om.MFn.kTransform:
+        else:
+            cmds.xform(loc,cpc=True)
+            self.bakeCustomToolPivot(loc)
             Mat = cmds.xform(loc,q=True,m=True,ws=True)
         return Mat
 
@@ -412,7 +402,6 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         xAxis = om.MVector([matrix[i] for i in range(3)]).normalize()
         xAxis = om.MPoint(xAxis)
         xAxis.w = 0
-        print(xAxis)
         yAxis = om.MVector([matrix[i] for i in range(4,7)]).normalize()
         yAxis = om.MPoint(yAxis)
         yAxis.w = 0
@@ -441,16 +430,99 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         
         return [rot_x , rot_y , rot_z]
 
-    def Distribute_old(self):
-        objs=self.get_list_elements(self.Objlist)
-        locs=self.get_list_elements(self.Loclist)
-        for loc in locs:
-            location=cmds.xform(loc,q=1,t=1,ws=1)
-            obj=random.choice(objs)
-            dup=cmds.duplicate(obj,rr=1)[0]
-            cmds.xform(dup,m=om.MMatrix.kIdentity,ws=True)
-            cmds.setAttr(dup+".offsetParentMatrix",self.get_vert_matrix(loc),typ="matrix")
-        return
+    def bakeCustomToolPivot(self,obj, pos=1, ori=1):
+        # Check 1) must have an object(s) selected
+        objects = cmds.ls(obj, transforms=1)
+        shapes = cmds.ls(obj, shapes=1)
+        if len(shapes) > 0:
+            transforms = cmds.listRelatives(path=1, parent=1, type='transform')
+            objects += transforms
+
+        if len(objects) == 0:
+            cmds.error("m_bakeCustomToolPivot.kNoObjectsSelectedError")
+            return None
+
+        # Check 2) must be in the move/rotate/scale tool
+        currentCtx = cmds.currentCtx()
+        # contextList = ["moveSuperContext", "manipMoveContext", "RotateSuperContext",
+        #             "manipRotateContext", "scaleSuperContext", "manipScaleContext"]
+
+
+        # if currentCtx not in contextList:
+        #     cmds.error("m_bakeCustomToolPivot.kWrongToolError")
+        #     return None
+
+        # Check 3) must be in custom orientation mode
+        customOri = []
+        otherToolActive = 0
+        pivotModeActive = 0
+        customModeActive = 0
+        if currentCtx == "moveSuperContext" or currentCtx == "manipMoveContext":
+            customOri = cmds.manipMoveContext('Move', q=1, orientAxes=1)
+            pivotModeActive = cmds.manipMoveContext('Move', q=1, editPivotMode=1)
+            customModeActive = cmds.manipMoveContext('Move', q=1, mode=1) / 6
+        elif currentCtx == "RotateSuperContext" or currentCtx == "manipRotateContext":
+            customOri = cmds.manipRotateContext('Rotate', q=1, orientAxes=1)
+            pivotModeActive = cmds.manipRotateContext('Rotate', q=1, editPivotMode=1)
+            customModeActive = cmds.manipRotateContext('Rotate', q=1, mode=1) / 3
+        elif currentCtx == "scaleSuperContext" or currentCtx == "manipScaleContext":
+            customOri = cmds.manipScaleContext('Scale', q=1, orientAxes=1)
+            pivotModeActive = cmds.manipScaleContext('Scale', q=1, editPivotMode=1)
+            customModeActive = cmds.manipScaleContext('Scale', q=1, mode=1) / 6
+        else:
+            customOri = cmds.manipMoveContext('Move', q=1, orientAxes=1)
+            pivotModeActive = cmds.manipMoveContext('Move', q=1, editPivotMode=1)
+            customModeActive = cmds.manipMoveContext('Move', q=1, mode=1) / 6
+            otherToolActive = 1
+
+        if ori and not pos and not customModeActive:
+            if otherToolActive:
+                cmds.error("m_bakeCustomToolPivot.kWrongAxisOriToolError")
+            else:
+                cmds.error("m_bakeCustomToolPivot.kWrongAxisOriModeError")
+            return None
+
+        # Get custom orientation
+        if ori and customModeActive:
+            customOri[0] = mel.eval('rad_to_deg({})'.format(customOri[0]))
+            customOri[1] = mel.eval('rad_to_deg({})'.format(customOri[1]))
+            customOri[2] = mel.eval('rad_to_deg({})'.format(customOri[2]))
+            # Set object(s) rotation to the custom one (preserving child transform positions and geometry positions)
+            cmds.rotate(customOri[0], customOri[1], customOri[2], objects, a=1, pcp=1, pgp=1, ws=1, fo=1)
+
+        if pos:
+            for object in objects:
+                # Get pivot in parent space
+                # object = 'pSphere4'            
+                old = [0, 0, 0]
+                m = cmds.xform(object, q=1, m=1)
+                p = cmds.xform(object, q=1, os=1, sp=1)
+                old[0] = (p[0] * m[0] + p[1] * m[4] + p[2] * m[8] + m[12])
+                old[1] = (p[0] * m[1] + p[1] * m[5] + p[2] * m[9] + m[13])
+                old[2] = (p[0] * m[2] + p[1] * m[6] + p[2] * m[10] + m[14])
+
+                # Zero out pivots
+                cmds.xform(objects, zeroTransformPivots=1)
+
+                # Translate object(s) back to previous pivot (preserving child transform positions and geometry positions)
+                new = cmds.getAttr(object + ".translate")[0]
+                cmds.move((old[0] - new[0]), (old[1] - new[1]), (old[2] - new[2]), object, pcp=1, pgp=1, ls=1, r=1)
+
+        # Exit pivot mode
+        if pivotModeActive:
+            mel.eval('ctxEditMode;')
+
+        # Set the axis orientation mode back to object
+        if ori and customModeActive:
+            if currentCtx == "moveSuperContext" or currentCtx == "manipMoveContext":
+                cmds.manipMoveContext('Move', e=1, mode=0)
+            elif currentCtx == "RotateSuperContext" or currentCtx == "manipRotateContext":
+                cmds.manipRotateContext('Rotate', e=True, mode=0)
+            elif currentCtx == "scaleSuperContext" or currentCtx == "manipScaleContext":
+                cmds.manipScaleContext('Scale', e=1, mode=0)
+            else:
+                cmds.manipPivot(moveToolOri = 0)
+                cmds.manipPivot(ro = 1)
 
     @undo
     def Distribute(self):
@@ -459,6 +531,11 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         locs=self.get_list_elements(self.Loclist)
         if not self.match_rot_chkbox.isChecked():
             for loc in locs:
+                try:
+                    cmds.xform(loc,cpc=True)
+                    self.bakeCustomToolPivot(loc)
+                except:
+                    pass
                 Positions=cmds.xform(loc,q=True,t=True,ws=True)
                 PositionsList = [Positions[i:i+3] for i in range(0,len(Positions),3)]
                 sumPos = om.MVector()
@@ -466,7 +543,12 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
                     sumPos += om.MVector(pos)
                 AvgPos = sumPos / len(PositionsList)
                 obj=random.choice(objs)
-                dup=cmds.duplicate(obj,rr=True)[0]
+                if self.instance_chkbox.isChecked():
+                    dup=cmds.duplicate(obj,rr=True,ilf=True)[0]
+                else:
+                    dup=cmds.duplicate(obj,rr=True)[0]
+                cmds.xform(dup,cpc=True)
+                self.bakeCustomToolPivot(dup)
                 cmds.xform(dup,t=AvgPos,ws=True)
                 rot = self.get_rotation()
                 cmds.setAttr(dup+".r",*rot)
@@ -475,7 +557,12 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         for loc in locs:
             Matrix = self.get_Matrix(loc)
             obj=random.choice(objs)
-            dup=cmds.duplicate(obj,rr=1)[0]
+            if self.instance_chkbox.isChecked():
+                dup=cmds.duplicate(obj,rr=True,ilf=True)[0]
+            else:
+                dup=cmds.duplicate(obj,rr=True)[0]
+            cmds.xform(dup,cpc=True)
+            self.bakeCustomToolPivot(dup)
             cmds.xform(dup,m=om.MMatrix.kIdentity,ws=True)
             cmds.setAttr(dup+".offsetParentMatrix",Matrix,typ="matrix")
             objScale = cmds.getAttr(obj+".s")[0]
