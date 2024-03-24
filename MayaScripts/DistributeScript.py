@@ -346,8 +346,6 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         ZAxis = om.MPoint(bitangent)
         ZAxis.w = 0
         Matrix = om.MMatrix([XAxis,YAxis,ZAxis,closest_pnt])
-        # Matrix_parent = om.MMatrix(cmds.xform(curve_name,q=True,m=True,ws=True))
-        # Matrix = Matrix_child * Matrix_parent
         return Matrix
 
     def get_ep_matrix(self,ep):
@@ -433,7 +431,7 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         return [rot_x , rot_y , rot_z]
 
     def bakeCustomToolPivot(self,obj, pos=1, ori=1):
-        # Check 1) must have an object(s) selected
+
         objects = cmds.ls(obj, transforms=1)
         shapes = cmds.ls(obj, shapes=1)
         if len(shapes) > 0:
@@ -444,17 +442,7 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
             cmds.error("m_bakeCustomToolPivot.kNoObjectsSelectedError")
             return None
 
-        # Check 2) must be in the move/rotate/scale tool
         currentCtx = cmds.currentCtx()
-        # contextList = ["moveSuperContext", "manipMoveContext", "RotateSuperContext",
-        #             "manipRotateContext", "scaleSuperContext", "manipScaleContext"]
-
-
-        # if currentCtx not in contextList:
-        #     cmds.error("m_bakeCustomToolPivot.kWrongToolError")
-        #     return None
-
-        # Check 3) must be in custom orientation mode
         customOri = []
         otherToolActive = 0
         pivotModeActive = 0
