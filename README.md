@@ -27,6 +27,10 @@ RandomScripts I make for Friends
     > Files: 
       - Unreal_Stuff/CreateTempProjectFolder.bat
   [![Video](https://img.youtube.com/vi/ikH9uJQW51M/0.jpg)](https://youtu.be/ikH9uJQW51M)
+
+  **How to use:**
+
+  https://www.linkedin.com/posts/hossam96_unreal-unrealengine-blender3d-activity-7175404575837831169-A1cX
   
 # 2. Maya Scripts
   ## 2.1. Xgen Hair Guides Out
