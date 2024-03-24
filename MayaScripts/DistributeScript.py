@@ -261,6 +261,8 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         vertex_normal = sumNormals/len(vectors)
         YAxis = vertex_normal
         XAxis = YAxis ^ om.MVector.kXaxisVector
+        if XAxis == om.MVector.kZeroVector:
+            XAxis = YAxis ^ om.MVector.kYaxisVector
         ZAxis = XAxis ^ YAxis
         ZPoint = om.MPoint(ZAxis.normalize())
         ZPoint.w = 0
