@@ -401,8 +401,7 @@ class DistributionScript(MayaQWidgetDockableMixin,QtWidgets.QMainWindow,Ui_Distr
         else:
             cmds.xform(loc,cpc=True)
             self.bakeCustomToolPivot(loc)
-            Mat = cmds.xform(loc,q=True,m=True,ws=True)
-        
+            Mat = om.MMatrix(cmds.xform(loc,q=True,m=True,ws=True))
         TMatrix = om.MTransformationMatrix(Mat)
         TMatrix.setShear([0,0,0],om.MSpace.kWorld)
         Mat = TMatrix.asMatrix()
