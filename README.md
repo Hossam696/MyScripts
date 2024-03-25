@@ -41,4 +41,13 @@ RandomScripts I make for Friends
 **How to use:**
 
 https://www.linkedin.com/posts/hossam96_maya-xgen-grooming-activity-7172857655651254273-p7wT
+
+  ## 2.2. Random Distribution
+    > Files:
+      - DistributeScript.py
+  [![Video](https://img.youtube.com/vi/xTCFti5W8M8/0.jpg)](https://youtu.be/xTCFti5W8M8)
+
+**How to use:**
+
+
   
