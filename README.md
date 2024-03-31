@@ -48,6 +48,6 @@ https://www.linkedin.com/posts/hossam96_maya-xgen-grooming-activity-717285765565
   [![Video](https://img.youtube.com/vi/xTCFti5W8M8/0.jpg)](https://youtu.be/xTCFti5W8M8)
 
 **How to use:**
-
+  https://www.linkedin.com/posts/hossam96_maya-python-ui-activity-7177973196602630145-PbRG?utm_source=share&utm_medium=member_desktop
 
   
