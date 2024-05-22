@@ -35,7 +35,7 @@ RandomScripts I make for Friends
   ## 1.4. Paint on Foliage with World Mask
     > Files:
       - Unreal_Stuff/Content/WorldMask
-  [![Video](https://img.youtube.com/vi/GWsi4LwkOk/0.jpg)](https://www.youtube.com/watch?v=_GWsi4LwkOk)
+  [![Video](https://img.youtube.com/vi/_GWsi4LwkOk/0.jpg)](https://youtu.be/_GWsi4LwkOk)
 
   **How to use:**
   https://www.linkedin.com/posts/hossam96_3d-unreal-unrealengine-activity-7198642163742609408-CPdc
