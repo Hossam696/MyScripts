@@ -31,6 +31,15 @@ RandomScripts I make for Friends
   **How to use:**
 
   https://www.linkedin.com/posts/hossam96_unreal-unrealengine-blender3d-activity-7175404575837831169-A1cX
+
+  ## 1.4. Paint on Foliage with World Mask
+    > Files:
+      - Unreal_Stuff/Content/WorldMask
+  [![Video](https://img.youtube.com/vi/GWsi4LwkOk/0.jpg)](https://www.youtube.com/watch?v=_GWsi4LwkOk)
+
+  **How to use:**
+  https://www.linkedin.com/posts/hossam96_3d-unreal-unrealengine-activity-7198642163742609408-CPdc
+  
   
 # 2. Maya Scripts
   ## 2.1. Xgen Hair Guides Out
